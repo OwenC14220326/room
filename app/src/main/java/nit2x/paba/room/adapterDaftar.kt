@@ -7,7 +7,12 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import nit2x.paba.room.database.daftarBelanja
+import nit2x.paba.room.database.daftarBelanjaDB
 
 class adapterDaftar (private val daftarBelanja : MutableList<daftarBelanja>):
     RecyclerView.Adapter<adapterDaftar.ListViewHolder>(){
@@ -18,6 +23,7 @@ class adapterDaftar (private val daftarBelanja : MutableList<daftarBelanja>):
 
         var _btnEdit = itemView.findViewById<Button>(R.id.btnEdit)
         var _btnDelete = itemView.findViewById<Button>(R.id.btnDelete)
+        var _btnActive = itemView.findViewById<Button>(R.id.btnActive)
     }
 
     override fun onCreateViewHolder(
@@ -47,10 +53,16 @@ class adapterDaftar (private val daftarBelanja : MutableList<daftarBelanja>):
         holder._btnDelete.setOnClickListener {
             onItemClickCallback.delData(daftar)
         }
+
+        holder._btnActive.setOnClickListener {
+            onItemClickCallback.setActive(daftar)
+        }
+
     }
 
     interface OnItemClickCallback {
         fun delData(dtBelanja: daftarBelanja)
+        fun setActive(dtBelanja: daftarBelanja)
     }
 
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {

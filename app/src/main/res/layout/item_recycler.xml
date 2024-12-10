@@ -55,5 +55,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/btnActive"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/baseline_domain_verification_24"
+        app:layout_constraintBottom_toBottomOf="@+id/btnEdit"
+        app:layout_constraintEnd_toStartOf="@+id/btnEdit"
+        app:layout_constraintTop_toTopOf="@+id/btnEdit" />
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

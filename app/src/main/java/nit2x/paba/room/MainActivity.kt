@@ -14,9 +14,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import nit2x.paba.room.database.daftarBelanja
+import nit2x.paba.room.database.daftarBelanjaDAO
 import nit2x.paba.room.database.daftarBelanjaDB
+import nit2x.paba.room.database.historyBarangDB
 
 class MainActivity : AppCompatActivity() {
     private lateinit var DB : daftarBelanjaDB
@@ -33,6 +36,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
         var _fabAdd = findViewById<FloatingActionButton>(R.id.fabAdd)
+        var _btnHistory = findViewById<Button>(R.id.btnHistory)
         DB = daftarBelanjaDB.getDatabase(this)
 
         super.onStart()
@@ -63,6 +67,27 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 }
+                override fun setActive(dtBelanja: daftarBelanja) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val historyDb = historyBarangDB.getDatabase(this@MainActivity)
+                        historyDb.funhistoryBarangDAO().insert(dtBelanja)
+                        historyDb.funhistoryBarangDAO().updateStatus(dtBelanja.id)
+
+                        DB.fundaftarBelanjaDAO().delete(dtBelanja)
+
+                        val daftar = DB.fundaftarBelanjaDAO().selectAll()
+                        withContext(Dispatchers.Main) {
+                            adapterDaftar.isiData(daftar)
+                        }
+                    }
+                }
+
             })
+
+        _btnHistory.setOnClickListener {
+            val intent = Intent(this, TabelHistoryBarang::class.java)
+            startActivity(intent)
+        }
+
     }
 }

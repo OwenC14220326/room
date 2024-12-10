@@ -36,6 +36,7 @@ class TambahDaftar : AppCompatActivity() {
         var _etJumlah = findViewById<EditText>(R.id.etJumlah)
         _btnTambah.setOnClickListener {
             CoroutineScope(Dispatchers.IO).async {
+                val intent = Intent(this@TambahDaftar, MainActivity::class.java)
                 DB.fundaftarBelanjaDAO().insert(
                     daftarBelanja(
                         tanggal = tanggal,
@@ -43,6 +44,7 @@ class TambahDaftar : AppCompatActivity() {
                         jumlah = _etJumlah.text.toString()
                     )
                 )
+                startActivity(intent)
             }
         }
 

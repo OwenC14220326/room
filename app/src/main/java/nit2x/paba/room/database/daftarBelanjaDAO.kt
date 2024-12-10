@@ -22,4 +22,8 @@ interface daftarBelanjaDAO {
 
     @Query("SELECT * FROM daftarBelanja WHERE id=:isi_id")
     suspend fun getItem(isi_id : Int) : daftarBelanja
+
+    @Query("UPDATE daftarBelanja SET status = 1 WHERE id=:itemId")
+    fun updateStatus(itemId: Int)
+
 }
